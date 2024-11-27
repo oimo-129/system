@@ -1,0 +1,508 @@
+<!-- 这个归成研究报告界面比较好 -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>情报需求模块</title>
+    <script src="/static/it/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/it/js/common.js"></script>
+    <script type="/static/it/text/javascript">
+        Phonebrowser('');
+    </script>
+    <link rel="stylesheet" href="/static/it/css/product/main.css">
+    <link rel="stylesheet" href="/static/it/css/product/basic.css">
+    <link rel="stylesheet" href="/static/it/css/product/flexslider.css">
+    <link rel="stylesheet" href="/static/it/css/product/footer.css">
+    <script src="/static/it/js/product/slide_palace_treasury.js"></script>
+    <link rel="icon" href="/static/it/img/gree.ico" type="image/">
+
+    <link rel="stylesheet" href="/static/it/css/product/special_vertical.css">
+    <link rel="stylesheet" href="/static/it/css/product/chanye.css">
+    <script src="/static/it/js/product/special_vertical.js"></script>
+
+
+<style>
+
+    .header1{width: 100%;height: 32px;background-color:hsl(221, 89%,41%); margin:0 auto;}
+.header-top {  height:32px; margin:0 auto;}
+.header-top-left { height:32px;}
+.header-top-left a { float:left; font-size:15px; width:90px; line-height:32px; color:#eee; display:block;margin-right: 10px;}
+/* .header-top-left a img { width:30px; height:30px; padding:6px 0 0 8px; display:block;} */
+.header-top-left a span { float: left;padding-left:5px; padding-top: 0px; }
+ .header-top-left a:hover {background:#d85500;}
+ .header-top-right a { font-size:15px;color: #fff; display:block; float:left; line-height:32px; text-align:center; }
+ .header-top-right a { font-size:15px;color: #fff; display:block; float:left; line-height:32px; text-align:center;padding:0px 10px;padding-right:30px;}
+
+.header-top-right a span { color: #FFFFFF;float: right;}
+.header-top-right a img { float:left; margin:2px 0 0 0;margin-right: 2px;margin-top: 5px;}
+.header-top-right a:hover { color:#c92424;}
+/* .code_box{position: absolute;top: 28px;left: -14px;width: 100px;height: 100px;z-index: 99999999;} */
+/* .header-top-left .code_box img{width: 100%;height: 100%;} */
+.nav2{
+    background-color: hsl(221, 89%,41%);
+    }
+
+
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 设置图片和文字之间的间距 */
+}
+
+.user-info img {
+    display: block; /* 消除图片底部可能的空隙 */
+}
+
+.user-info span {
+    color: white;
+}
+
+
+    {#下拉菜单栏的修改选项#}
+    .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #0d09eb;
+            min-width: 80px;
+            {#min-width: 160px;#}
+            box-shadow: 0px 8px 16px 0px rgba(220, 25, 25, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            background-color: #1d3dbb;
+        }
+
+
+
+        .dropdown-content a {
+            color: #ffffff;
+            padding: 12px 10px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #5395ec;
+            /* 悬停时更改链接背景色 */
+        }
+
+        .dropdown  {
+            padding-top:0px;
+            padding-right: 20px;
+            cursor: pointer;
+        }
+
+
+
+        .content_list_title_231 a::before {  
+    content: "📄";  
+    {#margin-right: 1px;  #}
+}  
+
+
+
+</style>
+
+
+</head>
+<body>
+
+ <div class="header1">
+        <div class="header-top">
+            <div class="header-top-left fl">
+                <a href="{% url 'home' %}" target="_blank">
+
+                    <img class="flb" src="/static/it/img/gree.ico">
+                    <span>首页</span>
+                </a>
+
+            </div>
+
+
+            <div class="header-top-right fr ">
+{% if request.user.is_authenticated %}
+    <div class="dropdown">
+
+        <div class="user-info">
+             <img src="{{ MEDIA_URL }}{{ request.user.avatar }}" width="30" height="30" >
+             <span style="color: white; ">{{ user.username }}</span>
+        </div>
+
+        <div class="dropdown-content">
+                     <a href="{% url 'user:userinfo' %}">个人中心</a>
+                     <a href="{% url 'logout' %}">退出登录</a>
+        </div>
+
+    </div>
+{% else %}
+        <a href="{% url 'login' %}" target="_blank">
+            <img src="/static/it/img/person-fill-check.svg" width="20" height="20">
+            用户登录
+        </a>
+{% endif %}
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="nav">
+        <div class="nav_inbox">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="/static/it/img/logo_jd.png" alt="">
+            </a>
+            <div class="search">
+                <input type="text" id="HeaderInputSearch" onkeydown="SearchKeyDown(event, 'HeaderInputSearch')" placeholder="请输入家电关键词">
+                <a class="search_btn" href="javascript:void(0);" onclick="SearchCommon('HeaderInputSearch')">立即搜索</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="nav2">
+        <ul>
+            <li><a  href="{% url 'home' %}">情报首页</a></li>
+            <li><a class="act2" href="#" target="_blank">研究报告</a></li>
+            <li><a href="javascript:void(0);" target="_blank">共享文档</a></li>
+            <li><a  href="javascript:void(0);">奥维云网</a></li>
+
+            <li><a href="javascript:void(0);" target="_blank">中国知网</a></li>
+        </ul>
+    </div>
+<div>
+    <input type="hidden" id="ChannelColumnIdHidden" />
+    <input type="hidden" id="ListTypeHidden" value="" />
+    <input type="hidden" id="ListValueHidden" />
+
+    <input type="hidden" id="NewsLastDateHidden" />
+
+</div>
+
+
+
+
+
+
+<!-- content start -->
+<div class="bg_color7">
+    <div class="content3">
+        <!-- title start -->
+        <div class="search_title_23">
+                        <a href="#" class="">产业洞察</a>
+                        <a href="#" class="">行业研究</a>
+                        <a href="#" class="">用户调研</a>
+                        <!-- <a href="/news/viewindustry/TouRongZiQingKuang/" class="">投融资情况</a> -->
+                        <a href="#" class="">院内报告</a>
+
+
+        </div>
+        <!-- title end -->
+        <!-- search start -->
+        <div class="chart-vd f-cb">
+            <ul>
+                <li>
+                    <p class="name">产品类型：<span id="nFirst">不限</span><i>&Lambda;</i></p>
+                    <div id="divFirst" class="chart-drop f-cb">
+                                <a href="#" class="current">不限</a>
+                                    <a href="#" class="">电风扇</a>
+                                    <a href="#" class="">电暖气</a>
+                                    <a href="#" class="">净水机</a>
+
+                    </div>
+                </li>
+
+                <li>
+                    <div id="divItem">
+                        <p class="name">报告时间：<span id="nItem">不限</span><i>&Lambda;</i></p>
+                        <div class="chart-drop f-cb">
+                            <div id="divItems" class="f-cb">
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="search-head">
+                <input type="text" id="queryKey" class="keys" value="" placeholder="请输入关键词">
+                <p class="sub_23" onclick="QueryKeywordClick()">
+                    <img src="/static/it/images/chanye_search_23.png" alt="">
+                    搜索
+                </p>
+            </div>
+        </div>
+        <!-- search end -->
+        <!-- content list start -->
+
+
+
+
+        <div class="content_list_23">
+
+
+            <!--文件放的列表地方-->
+
+
+
+
+            <ul>
+
+                {% for file in files %}
+
+                 <li>
+                                    <div class="content_list_img_23">
+                                        <a href="#" title="#" target="_blank">
+                                            <img src="{{ file.cover.url }}" alt="#">
+                                        </a>
+                                    </div>
+                                    <div class="content_list_font_232">
+                                        <a href='#' target='_blank' title='#'>{{ file.file_dist }}</a>
+
+                                        <b>{{ file.add_time }}</b>
+                                    </div>
+                                    <div class="content_list_title_231">
+                                        <a href="{% url 'info:file_download' file.id %}" title="{{ file.name }}" target="_blank" class="wes2" >
+                                            {{ file.name }}
+                                        </a>
+                                    </div>
+                  </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+
+        </div>
+
+
+
+
+
+
+
+    <!--分页模块-->
+
+        <!-- content list end -->
+        <!-- padding start -->
+        <div class="Pagination margin_top26" id="kkpager">
+
+        </div>
+        <!-- padding end -->
+    </div>
+</div>
+<!-- content start -->
+
+文件数量：{{ files|length}}
+    <!-- 页脚 -->
+    <div id="footer">
+        <div class="footer_end">
+            <div class="footer_end_box">
+                <div class="footer_end_box_left">
+                    <p>
+                        <a href="#" target="_blank" title="家电一院">格力电器家电技术一院</a>
+                        <i>|</i>
+                        <a href="#" target="_blank" title="关于我们">关于我们</a>
+                        <i>|</i>
+                        <a href="#" target="_blank" title="服务领域">服务领域</a>
+                        <i>|</i>
+                        <a href="#" target="_blank" title="荣誉资质">荣誉资质</a>
+                        <i>|</i>
+
+                        <a href="#" target="_blank" title="联系我们">联系我们</a>
+                    <div class="clear_float"></div>
+                    </p>
+                    <p>
+
+                        <a href="#" target="_blank" class="beian_2021">oimo演示</a>
+                    </p>
+                    <p>待添加内容</p>
+                </div>
+                <div class="footer_end_box_right">
+                    <img src="/static/it/img/gree.ico" alt="" class="code2">
+                    <div>家电一院情报系统</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--header-top end-->
+    <!--header-top end-->
+
+
+
+
+    <script src="/static/it/js/product/up_silde.js"></script>
+
+ <!--第三方分页插件 -->
+
+    <script type="text/javascript" src="/static/it/js/product/kkpager.min.js"></script>
+
+    <script type="text/javascript">
+    $(function () {
+        //计算总页码
+        var pageSize = {{ page_size }}; //每一页显示数量
+        var totalRecord = {{ total_files }};//总记录数
+        var totalPage = Math.ceil(totalRecord / pageSize);//总页数
+        var currentPage = {{ request.GET.page|default:1 }};//当前页码，默认是1
+
+        //生成分页插件
+        kkpager.generPageHtml({
+            pagerid: 'kkpager',
+            pno: currentPage,
+            total: totalPage,
+            totalRecords: totalRecord,
+            mode: 'link', //设置为link模式
+
+            isShowTotalPage: true,
+            isShowTotalRecords: true,
+            isShowFirstPageBtn: true,
+            isShowLastPageBtn: true,
+            isGoPage: false,
+
+            //我添加的：链接函数处理
+            //getLink仅适用于mode为link
+            getLink: function (n) {
+                //构建分页URL,保留其他查询数据？
+                var baseUrl = window.location.pathname;
+                var params = new URLSearchParams(window.location.search);
+                params.set('page',n);
+                return baseUrl+'?'+params.toString();
+
+            },
+     
+            lang:{
+                firstPageText: '首页',
+            firstPageTipText: '首页',
+            lastPageText: '尾页',
+            lastPageTipText: '尾页',
+            prePageText: '上一页',
+            prePageTipText: '上一页',
+            nextPageText: '下一页',
+            nextPageTipText: '下一页',
+            totalPageBeforeText: '共',
+            totalPageAfterText: '页',
+            totalRecordsAfterText: '条数据',
+            gopageBeforeText: '转到',
+            gopageButtonOkText: '确定',
+            gopageAfterText: '页',
+            buttonTipBeforeText: '第',
+            buttonTipAfterText: '页'
+
+            },
+
+             // 样式
+        themeCss: 'pagination',
+        noPageText: '...',
+        isShowPrePageBtn: true,
+        isShowNextPageBtn: true,
+        isShowTotalPage: true,
+        isShowTotalRecords: true,
+        isGoPage: false,
+        isWrapedPageBtns: true,
+        isWrapedInfoTextAndGoPageBtn: true
+
+        });
+    });
+
+
+    //这个应该是查询的功能模块
+        function QueryKeywordClick() {
+            var queryKeyword = $("#queryKey").val();
+            if (queryKeyword == "") {
+                return;
+            }
+            var itemUrl = "/info/infolist/";
+            if (""!="") {
+                itemUrl = itemUrl + "" + "/";
+            }
+            itemUrl = itemUrl + "?tradeId=&keyword=" + queryKeyword;
+            window.open(itemUrl);
+        }
+
+        function GetListTrade(parentTradeId) {
+            if (parentTradeId == "") {
+                $("#divItems").html("");
+                return;
+            }
+            $("#divItems").html("");
+            $.ajax({
+                type: 'Get',
+                url: '/tool/GetListTrade?id=' + parentTradeId,
+                data: {},
+                dataType: 'json',
+                success: function (result) {
+                    var theHtml = "<a href='#' onclick='changeItem(this)' class='current' data=''>不限</a>";
+
+                    if (result && result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            var item = result[i];
+                            var itemUrl = "";
+                            var itemUrl = "/news/viewindustry/";
+                            if ("" != "") {
+                                itemUrl = itemUrl + "" + "/";
+                            }
+                            itemUrl = itemUrl + "?keyword=&tradeId=" + item.TradeId;
+
+                            theHtml = theHtml + "<a href='" + itemUrl + "' onclick='changeItem(this)' class=''>" + item.TradeName +"</a>";
+                        }
+                    }
+                    $("#divItems").html(theHtml);
+                },
+                beforeSend: function () {
+                    return true;
+                }
+            });
+        }
+    </script>
+
+
+
+
+<!-- 添加分页样式 -->
+
+
+
+    <script type="text/javascript" src="/static/it/js/product/basic.js"></script>
+
+    <script src="/static/it/js/product/proposal-Submit.js" type="text/javascript"></script>
+
+    <script src="/static/it/js/baidusearch.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/static/it/js/askciTongJi.js"></script>
+    <script type="text/javascript">
+
+
+
+
+    </script>
+
+    <script src="/static/it/js/product/jquery.common.js"></script>
+
+
+
+<!--下载模块显示-->
+<script>  
+$(document).ready(function() {  
+    $('.content_list_title_231 a').click(function(e) {  
+        // 显示下载开始提示  
+        alert('文件开始下载，请稍候...');  
+    });  
+});  
+</script>
+
+</body>
+</html>

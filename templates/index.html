@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+{% block title  %} 情报系统首页 {% endblock %}
+{%  load static %}
+
+
+
+
+{% block content %}
+    <!-- 搜索栏 -->
+
+    <!-- 学它的布局，将它的布局重新编排 -->
+    <div class="nav bg-cover " id="nav1">
+
+
+        <div class="nav_inbox">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="/static/it/img/logo_jd.png" alt="">
+            </a>
+
+
+            <div class="col-lg-8 text-center mx-auto">
+                <h2 style="margin-top: 20px; margin-left: 15px; color: white;">格力家电一院情报搜索</h2>
+
+                <div class="position-relative" id="search_div">
+
+                    <div class="row">
+
+
+                        <div>
+                            <img src="/static/it/images/fire.svg" id="fire_img">
+                            <span style="color:white;">热门：</span>
+                        </div>
+
+                        <ul class="list-inline" style="margin-top: 29px;">
+
+                            <div class="list-inline-item ">
+                                <input type="checkbox" id="checkbox" class="checkbox" />
+                                <label style="color:white;">电风扇 </label>
+                            </div>
+
+                            <div class="list-inline-item ">
+                                <input type="checkbox" id="checkbox" class="checkbox" />
+                                <label style="color:white;">电暖气 </label>
+                            </div>
+
+                            <div class="list-inline-item ">
+                                <input type="checkbox" id="checkbox" class="checkbox" />
+                                <label style="color:white;">净水机 </label>
+                            </div>
+
+                            <div class="list-inline-item ">
+                                <input type="checkbox" id="checkbox" class="checkbox" />
+                                <label style="color:white;">厨房小电 </label>
+                            </div>
+
+                            <div class="list-inline-item ">
+                                <input type="checkbox" id="checkbox" class="checkbox" />
+                                <label style="color: white;">清洁电器 </label>
+                            </div>
+
+                        </ul>
+
+
+                    </div>
+                    <div> </div>
+                    <input id="search" class="form-control" placeholder="请输入要查找的内容">
+                    <a href="#"> <i class="ti-search search-icon" style="margin-top: 80px;"></i></a>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+<!--其他的暂时先去掉，只保留研究报告-->
+    <div class="nav2">
+        <ul>
+            <li><a class="act2" href="{% url 'home' %}">情报首页</a></li>
+
+            <li><a href="{% url 'info:infolist' %}" target="_blank">研究报告</a></li>
+     
+        </ul>
+    </div>
+    <!--header-top end-->
+
+
+
+<!--轮播图的样式表，先放在这里面后处理 -->
+    <style>
+
+.prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    left:10px;
+}
+.prev:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+     color: #fff;
+
+}
+
+.next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    right:10px;
+}
+.next:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+    </style>
+
+
+    <div class="content1" style="background-color：rgba(0, 0, 0, 0.8)">
+
+
+        <div id="slider" class="flexslider height1 ">
+
+            <ul class="slides" style=" transition: transform 0.5s ease-in-out;">
+                <li >
+
+                    {% for banner in all_banners %}
+                    <a href="#" target="_blank" class=" height1">
+                        <img src="{{ MEDIA_URL }}{{ banner.image }}" alt="" id="cir">
+                        <div class="img_title">{{ banner.title }}</div>
+                    </a>
+                    {% endfor %}
+
+                </li>
+            </ul>
+
+            <button class="prev" onclick="preSlide()">&#10094;</button>
+            <button class="next" onclick="nextSlide()">&#10095;</button>
+        </div>
+
+
+    </div>
+
+
+<!--轮播图的功能实现 -->
+<script>
+ let curIndex =0;
+ <!--取到轮播图中所有图片-->
+ const images = document.querySelectorAll('.slides img')
+ const totalImg= images.length;
+
+ function showSlide(index)
+ {
+     const carouselImages = document.querySelector('.slides');
+     if(index>=totalImg)
+     {
+         curIndex = 0;
+     }else if(index<0)
+     {
+         curIndex=totalImg-1;
+     }else{
+         curIndex=index;
+     }
+    carouselImages.style.transform =`translateY(-${curIndex * 420}px)`;
+     {#alert(curIndex)#}
+ }
+
+ <!-- 摆到下一个-->
+ function nextSlide()
+ {
+     showSlide(curIndex+1)
+
+ }
+ <!--摆回上一个-->
+ function preSlide()
+ {
+     showSlide(curIndex-1)
+ }
+
+ <!--添加默认5秒轮播，鼠标悬停时停止-->
+ function startSlide()
+ {
+     interVal = setInterval(nextSlide,5000);
+ }
+ function stopSlide()
+ {
+     clearInterval(interVal);
+ }
+ <!--这边没有启动-->
+ document.querySelector('.flexslider').addEventListener('mouseenter',stopSlide);
+ document.querySelector('.flexslider').addEventListener('mouseleave',startSlide);
+ 
+startSlide();
+ 
+</script>
+
+
+
+    <div class="content3 margin_bottom0 content2023">
+
+        <table>
+
+        </table>
+
+
+
+        <div class="service service2023" id="report_1">
+            <div class="content_title">
+                <span>活动宣发</span>
+                <div class="line1 width-bod96"></div>
+                <div class="more">
+                    <a href="#" target="_blank">
+                        <img src="/static/it/img/arrow_right.jpg" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="content_box4">
+                <div class="listed-companies-content">
+                    <a class="listed-companies-c-list" href="#" title="报告待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-1000000007.png"></i>
+                        <span>关于家电一院质量月活动通知</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-1000000008.png"></i>
+                        <span>关于家电一院四标要求的通知研究报告</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-1000000009.png"></i>
+                        <span>关于家电一院净水机产品调研问卷</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院用户体验活动总结</span>
+                    </a>
+
+                    <a class="listed-companies-c-list" href="#" title="报告待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院质量月活动通知</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院四标要求的通知研究报告</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院净水机产品调研问卷</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院用户体验活动总结</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="报告待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院质量月活动通知</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院四标要求的通知研究报告</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院净水机产品调研问卷</span>
+                    </a>
+                    <a class="listed-companies-c-list" href="#" title="待添加" target="_blank">
+                        <i class=""><img
+                                src="/static/it/plugins/image1.askci.com/jingzhuenzhaoshang_img/images/2019-06-10000000010.png"></i>
+                        <span>关于家电一院用户体验活动总结</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="free_report free_report2023" id="report_2">
+            <div class="content_title">
+                <span>共享报告</span>
+                <div class="line1 width-bod96"></div>
+                <div class="more po_r4">
+                    <a href="#" target="_blank">
+                        <img src="/static/it/img/arrow_right.jpg" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="free_report_content2">
+                <ul>
+                    <li>
+                        <a href="#" target="_blank" title="《扫地机器人行业算法现状、问题以及未来方向》报告">
+                            <div class="free_report_img2">
+                                <img src="/static/it/img/report_01.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="《扫地机器人行业算法现状、问题以及未来方向》报告">
+                            <div class="free_report_title2">《扫地机器人行业算法现状、问题以及未来方向》报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="/static/it/img/tip_03.jpg" alt="">
+                            <a href="#" target="_blank" title="#">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="《扫地机器人行业算法现状、问题以及未来方向》报告">
+                            <div class="free_report_img2">
+                                <img src="/static/it/img/report_02.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="">
+                            <div class="free_report_title2">产品发布会特点总结报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="/static/it/img/tip_05.jpg" alt="">
+                            <a href="/reports/index15.html" target="_blank" title="#">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="/static/it/img/report_02.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">《果蔬去除农药残留国内外技术研究现状》报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tips1.png" alt="">
+                            <a href="#" target="_blank" title="综合行业">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="./img/report_03.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">产品发布会特点总结报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tips1.png" alt="">
+                            <a href="#" target="_blank" title="机电装备">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="./img/report_03.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">产品正向设计调研报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tips1.png" alt="">
+                            <a href="#" target="_blank" title="机电装备">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="./img/report_03.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">需求推导的常见维度调研报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tip_05.jpg" alt="">
+                            <a href="#" target="_blank" title="机电装备">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="./img/report_02.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">导热性好的玻璃种类调研</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tips1.png" alt="">
+                            <a href="#" target="_blank" title="综合行业">家电材料</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_img2">
+                                <img src="img/report_01.jpg" alt="#">
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" title="#">
+                            <div class="free_report_title2">精简PPT与高效表达法则调研报告</div>
+                        </a>
+                        <div class="hot_news_tips margin_top2">
+                            <img class="margin_left_8" src="./img/tips1.png" alt="">
+                            <a href="#" target="_blank" title="化工材料">家电材料</a>
+                        </div>
+                    </li>
+
+
+
+
+                    <div class="clear_float"></div>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="clear_float"></div>
+    </div>
+
+
+    
+
+    <script src="/static/it/js/jquery.flexslider-min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $(".flexslider").flexslider({
+                animation: "fade", //有滑动的效果
+                controlNav: true, //是否显示小点点，false就不显示底部的导航了，也可以自己使用js隐藏。
+                directionNav: true, //是否显示左右箭头,还是可以使用js来隐藏
+                autoPlay: true,
+            });
+
+        });
+    </script>
+    
+    
+{% endblock %}

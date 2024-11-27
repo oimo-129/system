@@ -1,0 +1,16 @@
+
+<h1>显示当前信息表</h1>
+<form action="#">
+      <label for="lang">选择部门</label>
+    
+    
+      <select name="languages" id="lang">
+          {% for desp in desp_front %}
+          	<option value="{{ desp }}">{{ desp.name }}</option>
+          {% endfor %}
+          
+        
+       
+      </select>
+      <input type="submit" value="Submit" />
+</form>
