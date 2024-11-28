@@ -4631,3 +4631,4 @@ Not Found: /static/it/css/img/top_icon.png
 [pid: 31457|app: 0|req: 71/538] 172.28.131.25 () {38 vars in 967 bytes} [Wed Nov 27 06:43:31 2024] GET /static/it/css/img/top_icon.png => generated 3095 bytes in 4 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)
 Not Found: /static/it/css/img/feedback.png
 [pid: 31459|app: 0|req: 133/539] 172.28.131.25 () {38 vars in 967 bytes} [Wed Nov 27 06:43:31 2024] GET /static/it/css/img/feedback.png => generated 3095 bytes in 4 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 1)
+uwsgi_proto_uwsgi_parser(): Resource temporarily unavailable [proto/uwsgi.c line 40]

@@ -55,9 +55,11 @@ class IndexView(View):
 
         #轮播图资源
         all_banners = BannerModel.objects.all().order_by('index')
+        numbers = range(1,9)
         context = {
             'all_banners': all_banners,
             'MEDIA_URL': settings.MEDIA_URL,
+            'numbers': numbers,
         }
 
         return render(request, "index.html", context)
