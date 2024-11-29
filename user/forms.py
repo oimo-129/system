@@ -2,15 +2,38 @@
 
 from django import forms
 from captcha.fields import CaptchaField
-
+from django.core.validators import RegexValidator
 from .models import *
 
-#注册表单的校验
+
+
 
 class ResignForm(forms.Form):
-    email = forms.EmailField(required=True)
-    password = forms.CharField(required=True, min_length=6, max_length=20)
-    captcha = CaptchaField()
+    email = forms.EmailField(
+                            required=True,
+                             validators=[
+                                 RegexValidator(
+                                     regex=r'^[a-zA-Z0-9_.+-]+@gree\.com$',
+                                     message='不符合格力内邮账号样式',
+                                     code = 'invalid_email'
+                                 )
+                             ],
+                             error_messages={  
+                                'required': '请输入邮箱地址',  
+                                'invalid': '请输入有效的邮箱地址'  
+                            }  
+                            )
+    password = forms.CharField(
+                        required=True,
+                        min_length=6, 
+                        max_length=20,
+                        error_messages={
+                             'required': '请输入密码',  
+                             'min_length': '密码长度至少为6位',  
+                             'max_length': '密码长度不能超过20位'  
+                        })
+    
+    #captcha = CaptchaField()
 
 
 #登录表单的校验

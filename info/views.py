@@ -1,5 +1,6 @@
 #from msilib.schema import ListView
 
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
@@ -28,12 +29,13 @@ from .models import FileModel
 #12.文件下载功能？应该是前端的事？
 
 class InfoView(LoginRequiredMixin,View):
+    
+    #未验证成功，返回这个界面
+    def handle_no_permission(self):
+        return render(self.request, 'no_permission.html')
+    
     def get(self, request):
-
-
-
         files = FileModel.objects.all().order_by('-id')
-
          #每页显示数量
         page_size = 2
         paginator = Paginator(files, page_size)
