@@ -5,30 +5,33 @@
 <head>
     <meta charset="UTF-8">
     <title>情报需求模块</title>
-    <script src="/static/it/js/jquery-1.11.3.min.js"></script>
-    <script src="/static/it/js/common.js"></script>
-    <script type="/static/it/text/javascript">
+    <script src="{% static 'it/js/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'it/js/common.js' %}"></script>
+    <script type="{% static 'it/text/javascript' %}">
         Phonebrowser('');
     </script>
-    <link rel="stylesheet" href="/static/it/css/product/main.css">
-    <link rel="stylesheet" href="/static/it/css/product/basic.css">
-    <link rel="stylesheet" href="/static/it/css/product/flexslider.css">
-    <link rel="stylesheet" href="/static/it/css/product/footer.css">
-    <script src="/static/it/js/product/slide_palace_treasury.js"></script>
-    <link rel="icon" href="/static/it/img/gree.ico" type="image/">
+    <link rel="stylesheet" href="{% static 'it/css/product/main.css' %}">
+    <link rel="stylesheet" href="{% static 'it/css/product/basic.css' %}">
+    <link rel="stylesheet" href="{% static 'it/css/product/flexslider.css' %}">
+    <link rel="stylesheet" href="{% static 'it/css/product/footer.css' %}">
+    <script src="{% static 'it/js/product/slide_palace_treasury.js' %}"></script>
+    <link rel="icon" href="{% static 'it/img/gree.ico' %}" type="image/">
 
-    <link rel="stylesheet" href="/static/it/css/product/special_vertical.css">
-    <link rel="stylesheet" href="/static/it/css/product/chanye.css">
-    <script src="/static/it/js/product/special_vertical.js"></script>
+    <link rel="stylesheet" href="{% static 'it/css/product/special_vertical.css' %}">
+    <link rel="stylesheet" href="{% static 'it/css/product/chanye.css' %}">
+    <script src="{% static 'it/js/product/special_vertical.js' %}"></script>
+
+    <!--增加非阻塞消息弹窗-->
+    <link rel="stylesheet" href="{% static 'plugin/toastr/toastr.min.css' %}">
+   
 
 
 <style>
 
-    .header1{width: 100%;height: 32px;background-color:hsl(221, 89%,41%); margin:0 auto;}
+.header1{width: 100%;height: 32px;background-color:hsl(221, 89%,41%); margin:0 auto;}
 .header-top {  height:32px; margin:0 auto;}
 .header-top-left { height:32px;}
 .header-top-left a { float:left; font-size:15px; width:90px; line-height:32px; color:#eee; display:block;margin-right: 10px;}
-/* .header-top-left a img { width:30px; height:30px; padding:6px 0 0 8px; display:block;} */
 .header-top-left a span { float: left;padding-left:5px; padding-top: 0px; }
  .header-top-left a:hover {background:#d85500;}
  .header-top-right a { font-size:15px;color: #fff; display:block; float:left; line-height:32px; text-align:center; }
@@ -37,8 +40,6 @@
 .header-top-right a span { color: #FFFFFF;float: right;}
 .header-top-right a img { float:left; margin:2px 0 0 0;margin-right: 2px;margin-top: 5px;}
 .header-top-right a:hover { color:#c92424;}
-/* .code_box{position: absolute;top: 28px;left: -14px;width: 100px;height: 100px;z-index: 99999999;} */
-/* .header-top-left .code_box img{width: 100%;height: 100%;} */
 .nav2{
     background-color: hsl(221, 89%,41%);
     }
@@ -61,7 +62,6 @@
 }
 
 
-    {#下拉菜单栏的修改选项#}
     .dropdown {
             position: relative;
             display: inline-block;
@@ -107,9 +107,23 @@
         .content_list_title_231 a::before {  
     content: "📄";  
     {#margin-right: 1px;  #}
-}  
+
+    }  
 
 
+
+    .toast-info {  
+        background-color: #105CB3 !important; /* 设置背景颜色为蓝色 */  
+        color: white; /* 设置文本颜色为白色，以便在蓝色背景上可读 */  
+    }
+
+
+    
+
+    .search_title_23 a.btn {  
+        background-color: #248dfb;;  
+        color: white;  
+    }  
 
 </style>
 
@@ -204,13 +218,18 @@
     <div class="content3">
         <!-- title start -->
         <div class="search_title_23">
-                        <a href="#" class="">产业洞察</a>
-                        <a href="#" class="">行业研究</a>
-                        <a href="#" class="">用户调研</a>
-                        <!-- <a href="/news/viewindustry/TouRongZiQingKuang/" class="">投融资情况</a> -->
-                        <a href="#" class="">院内报告</a>
 
-
+                        <a href="{% url 'info:infolist' %}" class="{% if not current_category or current_category == 'all' %}btn{% endif %}" >
+                            全部资料</a>
+                        <a href="{% url 'info:infolist' %}?category=产业洞察" class="{% if current_category == '产业洞察' %}btn{% endif %}">
+                            产业洞察</a>
+                        <a href="{% url 'info:infolist' %}?category=行业研究" class="{% if current_category == '行业研究' %}btn{% endif %}">
+                            行业研究</a>
+                        <a href="{% url 'info:infolist' %}?category=用户调研" class="{% if current_category == '用户调研' %}btn{% endif %}">
+                            用户调研</a>
+                        <a href="{% url 'info:infolist' %}?category=院内报告" class="{% if current_category == '院内报告' %}btn{% endif %}">
+                            院内报告</a>
+                      
         </div>
         <!-- title end -->
         <!-- search start -->
@@ -275,11 +294,18 @@
 
                                         <b>{{ file.add_time }}</b>
                                     </div>
+
+
+
                                     <div class="content_list_title_231">
                                         <a href="{% url 'info:file_download' file.id %}" title="{{ file.name }}" target="_blank" class="wes2" >
                                             {{ file.name }}
                                         </a>
                                     </div>
+
+
+
+
                   </li>
 
                 {% endfor %}
@@ -308,7 +334,6 @@
 </div>
 <!-- content start -->
 
-文件数量：{{ files|length}}
     <!-- 页脚 -->
     <div id="footer">
         <div class="footer_end">
@@ -381,6 +406,12 @@
                 var baseUrl = window.location.pathname;
                 var params = new URLSearchParams(window.location.search);
                 params.set('page',n);
+                //分类参数
+                var category = params.get('category')
+                if(category)
+                {
+                    params.set('category',category);
+                }
                 return baseUrl+'?'+params.toString();
 
             },
@@ -418,6 +449,10 @@
 
         });
     });
+
+
+
+
 
 
     //这个应该是查询的功能模块
@@ -471,11 +506,43 @@
     </script>
 
 
+    <script>  
+        $(document).ready(function(){  
+            // 下载按钮点击事件  
+            $('.download-btn').click(function(e){  
+                toastr.info('文件正在处理，请稍后...', '', {  
+                    "timeOut": "1000",  
+                    "positionClass": "toast-top-center"  
+                });  
+            });  
+        
+            // 保持分页时的分类参数  
+            function updatePaginationLinks() {  
+                var category = new URLSearchParams(window.location.search).get('category');  
+                if (category) {  
+                    $('#kkpager a').each(function() {  
+                        var href = $(this).attr('href');  
+                        if (href) {  
+                            var url = new URL(href, window.location.origin);  
+                            url.searchParams.set('category', category);  
+                            $(this).attr('href', url.search);  
+                        }  
+                    });  
+                }  
+            }  
+        
+            // 在分页生成后更新链接  
+            if (typeof kkpager !== 'undefined') {  
+                var oldGenerPageHtml = kkpager.generPageHtml;  
+                kkpager.generPageHtml = function(args) {  
+                    oldGenerPageHtml.call(this, args);  
+                    updatePaginationLinks();  
+                };  
+            }  
+        });  
+        </script>
 
-
-<!-- 添加分页样式 -->
-
-
+    <script src="{% static 'plugin/toastr/toastr.min.js' %}" type="text/javascript"></script>
 
     <script type="text/javascript" src="/static/it/js/product/basic.js"></script>
 
@@ -483,26 +550,13 @@
 
     <script src="/static/it/js/baidusearch.js" type="text/javascript"></script>
     <script type="text/javascript" src="/static/it/js/askciTongJi.js"></script>
-    <script type="text/javascript">
 
-
-
-
-    </script>
 
     <script src="/static/it/js/product/jquery.common.js"></script>
 
 
 
-<!--下载模块显示-->
-<script>  
-$(document).ready(function() {  
-    $('.content_list_title_231 a').click(function(e) {  
-        // 显示下载开始提示  
-        alert('文件开始下载，请稍候...');  
-    });  
-});  
-</script>
+
 
 </body>
 </html>

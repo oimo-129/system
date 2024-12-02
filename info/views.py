@@ -35,9 +35,16 @@ class InfoView(LoginRequiredMixin,View):
         return render(self.request, 'no_permission.html')
     
     def get(self, request):
-        files = FileModel.objects.all().order_by('-id')
+        #添加分类模块
+        category = request.GET.get('category','all')
+        #根据分类筛选
+        if category and category != 'all':
+            files = FileModel.objects.filter(file_dist=category).order_by('-id')
+        else:
+            files = FileModel.objects.all().order_by('-id')
+        
          #每页显示数量
-        page_size = 2
+        page_size = 6
         paginator = Paginator(files, page_size)
         page = request.GET.get('page', 1)
 
@@ -55,6 +62,7 @@ class InfoView(LoginRequiredMixin,View):
             'total_files': len(files),
             'username': request.user.username,
             'MEDIA_URL': settings.MEDIA_URL,
+            'current_category': category,
         }
 
         return render(request, "product.html", context)
@@ -96,57 +104,3 @@ class FileDownloadView(View):
             raise Http404("文件未找到")
 
 
-
-
-
-
-
-
-
-
-
-
-
-    # def get(self, request, file_id):
-    #
-    #
-    #     # 根据文件 ID 获取文件对象
-    #     file_obj = get_object_or_404(FileModel, id=file_id)
-    #
-    #     # 获取文件路径
-    #     file_path = file_obj.file.path
-    #
-    #     try:
-    #         # 获取文件名和扩展名
-    #         filename = os.path.basename(file_path)
-    #         ext = os.path.splitext(filename)[1].lower()
-    #         # 设置正确的 MIME 类型
-    #         content_type = None
-    #         if ext == '.pdf':
-    #             content_type = 'application/pdf'
-    #         elif ext in ['.doc', '.docx']:
-    #             content_type = 'application/msword'
-    #         elif ext in ['.xls', '.xlsx']:
-    #             content_type = 'application/vnd.ms-excel'
-    #         elif ext in ['.ppt', '.pptx']:
-    #             content_type = 'application/vnd.ms-powerpoint'
-    #         else:
-    #             # 使用 mimetypes 模块猜测 MIME 类型
-    #             content_type, _ = mimetypes.guess_type(file_path)
-    #
-    #             # 打开文件并创建响应
-    #         file = open(file_path, 'rb')
-    #         response = FileResponse(file)
-    #
-    #         # 设置响应头
-    #         response['Content-Type'] = content_type
-    #         response['Content-Disposition'] = f'attachment; filename="{filename}"'
-    #
-    #
-    #         # 返回文件响应
-    #        # response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=file_obj.name)
-    #         return response
-    #
-    #
-    #     except FileNotFoundError:
-    #         raise Http404("文件未找到？？？")

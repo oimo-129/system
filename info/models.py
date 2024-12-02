@@ -35,6 +35,8 @@ class BannerModel(models.Model):
         return self.title
 
 
+
+
 '''
 产品线页面的资源文件
 
