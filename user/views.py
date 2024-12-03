@@ -21,7 +21,7 @@ from django.contrib.auth.hashers import make_password, check_password
 #验证模块添加
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-#json处理前端，异步？
+#json处理前端，异步，ajax启动
 from django.http import JsonResponse
 
 #添加前端静态路由的配置
@@ -88,21 +88,10 @@ class LoginView(View):
             user = authenticate(username=user_name, password=password)
             if user is not None:
                 login(request, user)
-                print(user)
-                print(user.username)
-                print(user.avatar)
-                print(request.user.username)
-                print(request.user.avatar)
-
                 return HttpResponseRedirect(reverse("home"), {'MEDIA_URL': settings.MEDIA_URL})
-
-
-                #return render(request, "index.html", {'MEDIA_URL': settings.MEDIA_URL,})
             else:
                 msg_error = "登录验证失败"
-                return render(request, "login.html", {"msg": msg_error})
-
-            #return HttpResponse("测试成功")
+                return render(request, "login.html", {"msg": msg_error})            
         else:
             return render(request, "login.html", {"login_form": login_form})
 
@@ -120,17 +109,28 @@ class RegisterView(View):
         register_form = ResignForm(request.POST)
         if register_form.is_valid():
             email_num = request.POST.get("email", " ")
+            
             if UserProfile.objects.filter(email=email_num).exists():
                 return render(request, "resign.html", {'register_form': register_form, 'msg': "邮箱号已被使用"})
+            
+            #添加默认科室设置
+            default_department = Department.objects.filter(is_default=True).first()
+            
+            if not default_department:
+                default_department = Department.objects.create(
+                    name="默认科室",
+                    is_default = True
+                )
+                
             pass_word = request.POST.get("password", "")
-            user_profile = UserProfile()
-            #存入邮箱信息
-            user_profile.email = email_num
-            #密码
+            #创建用户
+            user_profile = UserProfile(
+                email= email_num,
+                username= email_num,
+                department = default_department
+            )
+            #密码，应该是这里要修改
             user_profile.password = make_password(pass_word)
-            #user_profile.password = pass_word
-            #初始用户名与邮箱相同
-            user_profile.username = email_num
             user_profile.save()
             return render(request, "resign.html", {'register_form': register_form, 'msg': "用户注册成功!!!"})
         else:
@@ -210,25 +210,28 @@ class UserInfoView(LoginRequiredMixin,View):
             return render(request, "usercenter.html", {"mody_form": mody_form})
 
 
-    #对图像进行修改
+
+#修改用户头像Ajax方式提交
+class UploadImageView(LoginRequiredMixin,View):
+
+    def post(self,request):       
+        #对图片进行验证
+        image_form = UploadImageForm(request.POST, request.FILES, instance=request.user)
+        if image_form.is_valid():
+            image_form.save()
+            return JsonResponse({
+                'status': 'success',
+                'msg': '头像上传成功！',
+                'avatar_url': request.user.avatar.url
+            })
+        return JsonResponse({
+            'status':'fail',
+            'msg':'头像上传失败！'
+        })
 
 
 
-        #新的用户对象
-        #request.user.username = request.POST.get('username')
-        #科室存储
-        #request.user.department.name = request.POST.get('department')
 
-        #value = request.POST.get('desp_name')
-        #print(request.user.username)
-        #print(request.user.department.name)
-        #print(value)
-        request.user.save()
-
-
-        # 返回成功的 JSON 响应
-        #return JsonResponse({'status': 'success', 'message': '用户信息修改成功.'})
-        #return HttpResponse("用户信息修改成功！！")
 
 #回退显示所有表
 class ShowDep(View):

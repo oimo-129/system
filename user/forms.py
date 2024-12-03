@@ -36,14 +36,6 @@ class ResignForm(forms.Form):
     #captcha = CaptchaField()
 
 
-#登录表单的校验
-#用modelForm进行尝试
-# class LoginForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = UserProfile
-#         fields = ['username', 'password']
-#
 
 
 class LoginForm(forms.Form):
@@ -57,8 +49,9 @@ class UserForm(forms.ModelForm):
 
 
 
-#将头像上传到这个文件夹
-# class ImageUploadForm(forms.ModelForm):
-#     class Meta:
-#         model = UserForm
-#         fields = ['avatar']
+#验证头像上传
+class UploadImageForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar']
+

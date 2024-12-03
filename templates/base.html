@@ -149,7 +149,12 @@
     {% if request.user.is_authenticated %}
         
         <div class="user-info">
+            {% if request.user.avatar %}
              <img src="{{ MEDIA_URL }}{{ request.user.avatar }}" width="30" height="30" style="margin-top: -10px">
+            {% else %}
+            <img src="{{ MEDIA_URL }}avatars/default/default.png" width="30" height="30" style="margin-top: -10px">
+            {% endif %}
+
              <span style="color: white; ">{{ user.username }}</span>
         </div>
 
