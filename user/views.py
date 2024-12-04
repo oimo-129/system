@@ -23,6 +23,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 #json处理前端，异步，ajax启动
 from django.http import JsonResponse
+import json
+
 
 #添加前端静态路由的配置
 from itproject.settings import MEDIA_ROOT, MEDIA_URL
@@ -30,9 +32,6 @@ from django.conf import settings
 
 #首页的资源载入
 from info.models import *
-
-
-#登录验证函数
 
 #登录验证
 class CustomBackend(ModelBackend):
@@ -112,22 +111,14 @@ class RegisterView(View):
             
             if UserProfile.objects.filter(email=email_num).exists():
                 return render(request, "resign.html", {'register_form': register_form, 'msg': "邮箱号已被使用"})
-            
-            #添加默认科室设置
-            default_department = Department.objects.filter(is_default=True).first()
-            
-            if not default_department:
-                default_department = Department.objects.create(
-                    name="默认科室",
-                    is_default = True
-                )
+         
                 
             pass_word = request.POST.get("password", "")
             #创建用户
             user_profile = UserProfile(
                 email= email_num,
                 username= email_num,
-                department = default_department
+               
             )
             #密码，应该是这里要修改
             user_profile.password = make_password(pass_word)
@@ -140,38 +131,10 @@ class RegisterView(View):
 '''
 退出模块
 '''
-
 class LogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect(reverse("home"))
-
-
-
-# 图片模块载入
-
-'''
-1.setting,
-MEDIA
-MEDIA_ROOT
-2.url 
-3.重写前端界面
-
-'''
-# class UploadImgView(View):
-#     #只需要定义post方法
-#     def post(self,request):
-#         image_form = ImageUploadForm(request.POST, request.FILES, instance=request.user)
-#         if image_form.is_valid():
-#             return HttpResponse("图片信息合法")
-#         else:
-#             return HttpResponse("哪里有错误")
-#
-#
-
-
-
-
 
 
 '''
@@ -181,8 +144,6 @@ class UserInfoView(LoginRequiredMixin,View):
     def get(self, request):
 
         desp_back = Department.objects.values('name')
-
-
         context = {
                 'username': request.user.username,
                 'desp_front': desp_back,
@@ -190,24 +151,48 @@ class UserInfoView(LoginRequiredMixin,View):
                 'MEDIA_URL': settings.MEDIA_URL,
             }
 
-        #return render(request, 'my_template.html', context)
-
         return render(request, "usercenter.html", context)
 
-    #对个人数据进行保存
-
-    #对科室进行修改
     def post(self, request):
-        #修改相应对象
-        mody_form = UserForm(request.POST)
+        #修改相应对象       
+        mody_form = UserForm(request.POST,instance=user)
         if mody_form.is_valid():
-            username = mody_form.cleaned_data['username']
-            department = mody_form.cleaned_data['desp_name']
-            print("用户名:", username)
-            print("科室的内容：", department.name)
-            return HttpResponse("用户信息修改成功")
-        else:
-            return render(request, "usercenter.html", {"mody_form": mody_form})
+            user = request.user  
+            username = mody_form.cleaned_data['username']  
+            desp_id = mody_form.cleaned_data['desp_name']  
+            try:  
+                # 获取部门实例  
+                department = Department.objects.get(id=desp_id)
+                #更新用户信息
+                user.username = username  
+                user.desp_name = department  
+                user.save()    
+                return JsonResponse({  
+                    'status': 'success',  
+                    'message': '用户信息修改成功'  
+                })  
+            except Department.DoesNotExist:  
+                return JsonResponse({  
+                    'status': 'error',  
+                    'message': '所选科室不存在'  
+                })  
+            except Exception as e:  
+                return JsonResponse({  
+                    'status': 'error',  
+                    'message': f'保存失败：{str(e)}'  
+                })  
+        else:  
+            return JsonResponse({  
+                'status': 'error',  
+                'message': '表单验证失败',  
+                'errors': mody_form.errors  
+            })  
+        
+
+
+
+
+
 
 
 
@@ -230,26 +215,31 @@ class UploadImageView(LoginRequiredMixin,View):
         })
 
 
+#修改用户密码Ajax方式提交
 
+class UpdatePwdView(LoginRequiredMixin, View):  
+    """个人中心修改用户密码"""  
+    # def post(self, request):  
+    #     pwd1 = request.POST.get("password1", "")  
+    #     pwd2 = request.POST.get("password2", "")  
+        
+    #     # 表单验证  
+    #     if not pwd1 or not pwd2:  
+    #         return JsonResponse({'status': 'fail', 'msg': '密码不能为空'})  
+            
+    #     if len(pwd1) < 6 or len(pwd1) > 20:  
+    #         return JsonResponse({'status': 'fail', 'msg': '密码长度应在6-20位之间'})  
+            
+    #     if pwd1 != pwd2:  
+    #         return JsonResponse({'status': 'fail', 'msg': '两次输入的密码不一致'})  
 
-
-#回退显示所有表
-class ShowDep(View):
-
-    def get(self, request):
-           # desp_back = Department.objects.values('name')
-
-            #print(desp_back)
-            #return render(request, "listdep.html", {'desp_front': desp_back})
-            return render(request,"boot_login.html",{})
-
-'''
-1.前端界面，一个label ,for循环
-
-   
-2.后端调数据库，拿到数据库
-3.后端带数据返回前端
-'''
+    #     try:  
+    #         user = request.user  
+    #         user.set_password(pwd2)  # 使用set_password而不是make_password  
+    #         user.save()  
+    #         return JsonResponse({'status': 'success'})  
+    #     except Exception as e:  
+    #         return JsonResponse({'status': 'fail', 'msg': '服务器错误，请稍后重试'})  
 
 
 '''
@@ -270,5 +260,5 @@ class UserInfoNeed(LoginRequiredMixin, View):
 
         return render(request, 'center_need.html', context)
 
-        #return render(request, "center_need.html", {})
+    
 

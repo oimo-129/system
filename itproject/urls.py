@@ -20,19 +20,10 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 
 import user
-#from demotest import views as test_views
 
 #用户模块
 from user import views as user_views
 from info import views as info_views
-
-
-
-#from django.conf import settings
-#from django.conf.urls.static import static
-#from django.urls import path
-#from testajax import views as test_ajax
-#from testmedia import views as test_media
 
 
 
@@ -54,28 +45,12 @@ urlpatterns = [
     path('login/', user_views.LoginView.as_view(), name="login"),
 #注册
     path('resign/', user_views.RegisterView.as_view(), name="resign"),
-#验证码载入
-    path('captcha/', include('captcha.urls')),
 #退出登录
     path('logout/', user_views.LogoutView.as_view(), name="logout"),
 #user模块
     path('user/', include('user.urls', namespace='user')),
-
+#上传的信息模块
     path('info/', include('info.urls', namespace='info')),
-################################################################################
-
-#测试模块的相关页面,这一行要接着修改
-   # path('test/', test_views.home, name="home"),
-
-   # path('', test_views.login_view, name="login_test"),
-
-    #path('/upload', test_views.upload_file, name='upload'),
-
-   # path('ajax/', test_ajax.ContactView.as_view(), name='contact'),
-
-    #path('/upload', test_media.MyForm.as_view(), name='upload'),
-
- #   re_path(r'media/(?P<path>.*)/$', serve, {'document_root': MEDIA_ROOT}),
 ]
 
 if settings.DEBUG:

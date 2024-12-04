@@ -47,14 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    #测试第三方模块
-    #'demotest.apps.DemotestConfig',
-    #情报系统中用户的登陆、注册模块
+    'django.contrib.staticfiles', 
     'user.apps.UserConfig',
-    'captcha',
-    'testajax.apps.TestajaxConfig',
-    'testmedia.apps.TestmediaConfig',
     'info.apps.InfoConfig',
 ]
 
@@ -100,7 +94,7 @@ WSGI_APPLICATION = 'itproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'itproject1',
+        'NAME': 'itproject2',
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'USER': 'zdc',

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from captcha.fields import CaptchaField
 from django.core.validators import RegexValidator
 from .models import *
 
 
 
-
+#验证注册
 class ResignForm(forms.Form):
     email = forms.EmailField(
                             required=True,
@@ -33,20 +32,25 @@ class ResignForm(forms.Form):
                              'max_length': '密码长度不能超过20位'  
                         })
     
-    #captcha = CaptchaField()
 
 
 
-
+#验证登录
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True, min_length=5)
 
-
-class UserForm(forms.ModelForm):
-    username = forms.CharField(max_length=30, required=True)
-    desp_name = forms.ModelChoiceField(queryset=Department.objects.all(), label='科室')
-
+#用于修改登录用户的昵称和科室所属
+class UserForm(forms.ModelForm):  
+    class Meta:  
+        model = UserProfile  
+        fields = ['username', 'department']  
+        
+    def clean_username(self):  
+        username = self.cleaned_data.get('username')  
+        if len(username) < 2:  
+            raise forms.ValidationError("用户名长度太短")  
+        return username
 
 
 #验证头像上传
@@ -55,3 +59,9 @@ class UploadImageForm(forms.ModelForm):
         model = UserProfile
         fields = ['avatar']
 
+
+#暂时消除
+#验证密码正确
+# class ModifyPwdForm(forms.Form):
+#     password1 = forms.CharField(required=True, min_length=5)
+#     password2 = forms.CharField(required=True, min_length=5)

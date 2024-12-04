@@ -1,82 +1,7 @@
-//修改个人中心邮箱验证码
-function sendCodeChangeEmail($btn){
-    var verify = verifyDialogSubmit(
-        [
-          {id: '#jsChangeEmail', tips: Dml.Msg.epMail, errorTips: Dml.Msg.erMail, regName: 'email', require: true}
-        ]
-    );
-    if(!verify){
-       return;
-    }
-    $.ajax({
-        cache: false,
-        type: "get",
-        dataType:'json',
-        url:"/users/sendemail_code/",
-        data:$('#jsChangeEmailForm').serialize(),
-        async: true,
-        beforeSend:function(XMLHttpRequest){
-            $btn.val("发送中...");
-            $btn.attr('disabled',true);
-        },
-        success: function(data){
-            if(data.email){
-                Dml.fun.showValidateError($('#jsChangeEmail'), data.email);
-            }else if(data.status == 'success'){
-                Dml.fun.showErrorTips($('#jsChangeEmailTips'), "邮箱验证码已发送");
-            }else if(data.status == 'failure'){
-                 Dml.fun.showValidateError($('#jsChangeEmail'), "邮箱验证码发送失败");
-            }else if(data.status == 'success'){
-            }
-        },
-        complete: function(XMLHttpRequest){
-            $btn.val("获取验证码");
-            $btn.removeAttr("disabled");
-        }
-    });
 
-}
-//个人资料邮箱修改
-function changeEmailSubmit($btn){
-var verify = verifyDialogSubmit(
-        [
-          {id: '#jsChangeEmail', tips: Dml.Msg.epMail, errorTips: Dml.Msg.erMail, regName: 'email', require: true},
-        ]
-    );
-    if(!verify){
-       return;
-    }
-    $.ajax({
-        cache: false,
-        type: 'post',
-        dataType:'json',
-        url:"/users/update_email/ ",
-        data:$('#jsChangeEmailForm').serialize(),
-        async: true,
-        beforeSend:function(XMLHttpRequest){
-            $btn.val("发送中...");
-            $btn.attr('disabled',true);
-            $("#jsChangeEmailTips").html("验证中...").show(500);
-        },
-        success: function(data) {
-            if(data.email){
-                Dml.fun.showValidateError($('#jsChangeEmail'), data.email);
-            }else if(data.status == "success"){
-                Dml.fun.showErrorTips($('#jsChangePhoneTips'), "邮箱信息更新成功");
-                setTimeout(function(){location.reload();},1000);
-            }else{
-                 Dml.fun.showValidateError($('#jsChangeEmail'), "邮箱信息更新失败");
-            }
-        },
-        complete: function(XMLHttpRequest){
-            $btn.val("完成");
-            $btn.removeAttr("disabled");
-        }
-    });
-}
-
+//修改密码模块
 $(function(){
-    //个人资料修改密码
+    个人资料修改密码
     $('#jsUserResetPwd').on('click', function(){
         Dml.fun.showDialog('#jsResetDialog', '#jsResetPwdTips');
     });
@@ -86,7 +11,7 @@ $(function(){
             cache: false,
             type: "POST",
             dataType:'json',
-            url:"/users/update/pwd/",
+            url:"/user/update/pwd/",
             data:$('#jsResetPwdForm').serialize(),
             async: true,
             success: function(data) {
@@ -160,7 +85,7 @@ $(function(){
             cache: false,
             type: 'post',
             dataType:'json',
-            url:"/users/info/",
+            url:"/user/info/",
             data:$jsEditUserForm.serialize(),
             async: true,
             beforeSend:function(XMLHttpRequest){

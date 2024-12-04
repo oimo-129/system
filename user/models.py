@@ -21,7 +21,7 @@ class Department(models.Model):
                             null=True,
                             default='未设置',
                             verbose_name="科室")
-    is_default = models.BooleanField(default=False,verbose_name="是否默认科室")
+   
 
     class Meta:
         verbose_name = "部门表"
