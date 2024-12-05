@@ -7,7 +7,7 @@
     <title>情报需求模块</title>
     <script src="{% static 'it/js/jquery-1.11.3.min.js' %}"></script>
     <script src="{% static 'it/js/common.js' %}"></script>
-    <script type="{% static 'it/text/javascript' %}">
+    <script type="{% static 'text/javascript' %}">
         Phonebrowser('');
     </script>
     <link rel="stylesheet" href="{% static 'it/css/product/main.css' %}">
@@ -40,12 +40,7 @@
 .header-top-right a span { color: #FFFFFF;float: right;}
 .header-top-right a img { float:left; margin:2px 0 0 0;margin-right: 2px;margin-top: 5px;}
 .header-top-right a:hover { color:#c92424;}
-.nav2{
-    background-color: hsl(221, 89%,41%);
-    }
-
-
-
+.nav2{background-color: hsl(221, 89%,41%);}
 
 .user-info {
     display: flex;
@@ -129,6 +124,8 @@
 
 
 </head>
+
+
 <body>
 
  <div class="header1">
@@ -136,7 +133,7 @@
             <div class="header-top-left fl">
                 <a href="{% url 'home' %}" target="_blank">
 
-                    <img class="flb" src="/static/it/img/gree.ico">
+                    <img class="flb" src="{% static 'it/img/gree.ico' %}">
                     <span>首页</span>
                 </a>
 
@@ -164,7 +161,7 @@
     </div>
 {% else %}
         <a href="{% url 'login' %}" target="_blank">
-            <img src="/static/it/img/person-fill-check.svg" width="20" height="20">
+            <img src="{% static 'it/img/person-fill-check.svg' %}" width="20" height="20">
             用户登录
         </a>
 {% endif %}
@@ -178,13 +175,15 @@
 
 
 
+<!--搜索模块引入-->
+
     <div class="nav">
         <div class="nav_inbox">
             <a href="{% url 'home' %}">
-                <img class="logo" src="/static/it/img/logo_jd.png" alt="">
+                <img class="logo" src="{% static 'it/img/logo_jd.png' %}" alt="">
             </a>
             <div class="search">
-                <input type="text" id="HeaderInputSearch" onkeydown="SearchKeyDown(event, 'HeaderInputSearch')" placeholder="请输入家电关键词">
+                <input type="text" id="HeaderInputSearch" onkeydown="SearchKeyDown(event, 'HeaderInputSearch')" placeholder="请输入文件关键词">
                 <a class="search_btn" href="javascript:void(0);" onclick="SearchCommon('HeaderInputSearch')">立即搜索</a>
             </div>
         </div>
@@ -193,14 +192,13 @@
 
 
 
+
+
     <div class="nav2">
         <ul>
             <li><a  href="{% url 'home' %}">情报首页</a></li>
             <li><a class="act2" href="#" target="_blank">研究报告</a></li>
-            <li><a href="javascript:void(0);" target="_blank">共享文档</a></li>
-            <li><a  href="javascript:void(0);">奥维云网</a></li>
-
-            <li><a href="javascript:void(0);" target="_blank">中国知网</a></li>
+            
         </ul>
     </div>
 <div>
@@ -264,7 +262,7 @@
             <div class="search-head">
                 <input type="text" id="queryKey" class="keys" value="" placeholder="请输入关键词">
                 <p class="sub_23" onclick="QueryKeywordClick()">
-                    <img src="/static/it/images/chanye_search_23.png" alt="">
+                    <img src="{% static 'it/images/chanye_search_23.png' %}" alt="">
                     搜索
                 </p>
             </div>
@@ -346,27 +344,20 @@
                     <p>
                         <a href="#" target="_blank" title="家电一院">格力电器家电技术一院</a>
                         <i>|</i>
-                        <a href="#" target="_blank" title="关于我们">关于我们</a>
-                        <i>|</i>
-                        <a href="#" target="_blank" title="服务领域">服务领域</a>
-                        <i>|</i>
-                        <a href="#" target="_blank" title="荣誉资质">荣誉资质</a>
-                        <i>|</i>
+                        
 
-                        <a href="#" target="_blank" title="联系我们">联系我们</a>
-                    <div class="clear_float"></div>
+                        <a href="#" target="_blank" title="联系我们">联系管理员</a>
+                        <div class="clear_float"></div>
                     </p>
-                    <p>
-
-                        <a href="#" target="_blank" class="beian_2021">oimo演示</a>
-                    </p>
-                    <p>待添加内容</p>
+                   
+                  
                 </div>
                 <div class="footer_end_box_right">
-                    <img src="/static/it/img/gree.ico" alt="" class="code2">
+                    <img src="{% static 'it/img/gree.ico' %}" alt="" class="code2">
                     <div>家电一院情报系统</div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <!--header-top end-->
@@ -375,11 +366,11 @@
 
 
 
-    <script src="/static/it/js/product/up_silde.js"></script>
+    <script src="{% static 'it/js/product/up_silde.js' %}"></script>
 
  <!--第三方分页插件 -->
 
-    <script type="text/javascript" src="/static/it/js/product/kkpager.min.js"></script>
+    <script type="text/javascript" src="{% static 'it/js/product/kkpager.min.js' %}"></script>
 
     <script type="text/javascript">
     $(function () {
@@ -462,6 +453,7 @@
     //这个应该是查询的功能模块
         function QueryKeywordClick() {
             var queryKeyword = $("#queryKey").val();
+            alert("查找的关键词: " + queryKeyword);  
             if (queryKeyword == "") {
                 return;
             }

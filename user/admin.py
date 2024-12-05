@@ -19,10 +19,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm  
     
     # 列表显示字段  
-    list_display = ('username', 'email', 'department', 'is_active', 'is_staff', 'date_joined')  
+    list_display = ('username', 'email', 'desp_name', 'is_active', 'is_staff', 'date_joined')  
     
     # 列表筛选字段  
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'department')  
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'desp_name')  
     
     # 搜索字段  
     search_fields = ('username', 'email')  
@@ -44,7 +44,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (  
         (None, {  
             'classes': ('wide',),  
-            'fields': ('username', 'email', 'department', 'password1', 'password2'),  
+            'fields': ('username', 'email', 'desp_name', 'password1', 'password2'),  
         }),  
     )  
     

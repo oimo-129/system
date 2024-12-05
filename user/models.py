@@ -42,7 +42,7 @@ def user_avatar_path(instance,filename):
     return os.path.join('avatars',instance.email,f'avatar.{ext}')
 
 class UserProfile(AbstractUser):
-    department = models.ForeignKey('Department',
+    desp_name = models.ForeignKey('Department',
                                    on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True,
