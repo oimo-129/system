@@ -10,24 +10,26 @@ from datetime import datetime
 # 项目的第二个应用，用于资源添加处理
 
 
-
+#用于上传文件
+def upload_to(instance, filename):
+    today = datetime.today()
+    return os.path.join(f'files/{today.year}/{today.month}/{today.day}', filename)
 
 '''
 首页轮播图
 '''
 class BannerModel(models.Model):
     #标题
-    title = models.CharField(max_length=50, verbose_name="图片标题")
-    #路径
-    image = models.ImageField(upload_to="banner/%Y/%m", verbose_name="轮播图")
-    #添加超链接
-    url = models.URLField(max_length=200, verbose_name="访问顺序")
-    #优先级
-    index = models.IntegerField(default=100, verbose_name="顺序")
+    title = models.CharField(max_length=50, verbose_name="轮播图图片标题")
+    #轮播图目标文件
+    file_banner = models.FileField(upload_to=upload_to, verbose_name='轮播图目标文件', null=True)
+    #图片
+    image = models.ImageField(upload_to="banner/%Y/%m", verbose_name="首页轮播图图片")   
+    #添加时间决定轮播图样式
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
-        verbose_name = "轮播图资源表"
+        verbose_name = "首页轮播图资源表"
         verbose_name_plural = verbose_name
 
     #控制model实例的名字
@@ -41,9 +43,6 @@ class BannerModel(models.Model):
 产品线页面的资源文件
 
 '''
-def upload_to(instance, filename):
-    today = datetime.today()
-    return os.path.join(f'files/{today.year}/{today.month}/{today.day}', filename)
 
 
 class FileModel(models.Model):

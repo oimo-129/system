@@ -118,33 +118,6 @@
     .search_title_23 a.btn {  
         background-color: #248dfb;;  
         color: white;  
-
-
-
-
-
-
-
-        .search-form {  
-            display: flex;  
-            align-items: center;  
-        }  
-        
-        .search-result-info {  
-            margin: 10px 0;  
-            padding: 10px;  
-            background-color: #f5f5f5;  
-            border-radius: 4px;  
-        }  
-        
-        /* 如果没有搜索结果 */  
-        .no-results {  
-            text-align: center;  
-            padding: 20px;  
-            background-color: #f5f5f5;  
-            margin: 20px 0;  
-            border-radius: 4px;  
-        }  
     }  
 
 </style>
@@ -210,54 +183,13 @@
                 <img class="logo" src="{% static 'it/img/logo_jd.png' %}" alt="">
             </a>
             <div class="search">
-                <!--添加GET表单-->
-                <form id="searchForm" method="get" action="{% url 'info:infolist' %}" class="search-form">
-                    <!--如何有 category参数，保留它-->
-                    {% if current_category != 'all' %}
-                    <input type="hidden" name="category" value="{{ current_category }}">  
-                    {% endif %}
-                
-                    <input type="text" name="keyword" placeholder="请输入文件关键词" value="{{ keyword|default:'' }}">
-                    <button type="submit" class="search_btn">立即搜索</button>  
-                </form>
+                <input type="text" id="HeaderInputSearch" onkeydown="SearchKeyDown(event, 'HeaderInputSearch')" placeholder="请输入文件关键词">
+                <a class="search_btn" href="javascript:void(0);" onclick="SearchCommon('HeaderInputSearch')">立即搜索</a>
             </div>
         </div>
     </div>
 
 
-<!-- 添加搜索结果提示（可选） -->  
-{% if keyword %}  
-<div class="search-result-info">  
-    搜索关键词: "{{ keyword }}" - 找到 {{ total_files }} 个结果  
-</div>  
-{% endif %}  
-
-
-<!-- 添加必要的 JavaScript -->  
-<script>  
-    document.addEventListener('DOMContentLoaded', function() {  
-        // 获取表单元素  
-        const searchForm = document.getElementById('searchForm');  
-        const searchInput = searchForm.querySelector('input[name="keyword"]');  
-    
-        // 添加表单提交事件处理  
-        searchForm.addEventListener('submit', function(e) {  
-            // 如果搜索框为空，阻止提交  
-            if (!searchInput.value.trim()) {  
-                e.preventDefault();  
-                alert('请输入搜索关键词');  
-                return false;  
-            }  
-        });  
-    
-        // 添加输入框回车键处理  
-        searchInput.addEventListener('keypress', function(e) {  
-            if (e.key === 'Enter') {  
-                searchForm.submit();  
-            }  
-        });  
-    });  
-    </script>  
 
 
 
@@ -273,7 +205,9 @@
     <input type="hidden" id="ChannelColumnIdHidden" />
     <input type="hidden" id="ListTypeHidden" value="" />
     <input type="hidden" id="ListValueHidden" />
+
     <input type="hidden" id="NewsLastDateHidden" />
+
 </div>
 
 
@@ -511,6 +445,60 @@
         });
     });
 
+
+
+
+
+
+    //这个应该是查询的功能模块
+        function QueryKeywordClick() {
+            var queryKeyword = $("#queryKey").val();
+            alert("查找的关键词: " + queryKeyword);  
+            if (queryKeyword == "") {
+                return;
+            }
+            var itemUrl = "/info/infolist/";
+            if (""!="") {
+                itemUrl = itemUrl + "" + "/";
+            }
+            itemUrl = itemUrl + "?tradeId=&keyword=" + queryKeyword;
+            window.open(itemUrl);
+        }
+
+        function GetListTrade(parentTradeId) {
+            if (parentTradeId == "") {
+                $("#divItems").html("");
+                return;
+            }
+            $("#divItems").html("");
+            $.ajax({
+                type: 'Get',
+                url: '/tool/GetListTrade?id=' + parentTradeId,
+                data: {},
+                dataType: 'json',
+                success: function (result) {
+                    var theHtml = "<a href='#' onclick='changeItem(this)' class='current' data=''>不限</a>";
+
+                    if (result && result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
+                            var item = result[i];
+                            var itemUrl = "";
+                            var itemUrl = "/news/viewindustry/";
+                            if ("" != "") {
+                                itemUrl = itemUrl + "" + "/";
+                            }
+                            itemUrl = itemUrl + "?keyword=&tradeId=" + item.TradeId;
+
+                            theHtml = theHtml + "<a href='" + itemUrl + "' onclick='changeItem(this)' class=''>" + item.TradeName +"</a>";
+                        }
+                    }
+                    $("#divItems").html(theHtml);
+                },
+                beforeSend: function () {
+                    return true;
+                }
+            });
+        }
     </script>
 
 

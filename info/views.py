@@ -19,9 +19,10 @@ from django.http import FileResponse, Http404
 import os
 from django.shortcuts import get_object_or_404
 import mimetypes
+#查询模块
+from django.db.models import Q
 
-
-from .models import FileModel
+from .models import FileModel,BannerModel
 
 '''
 产品线界面
@@ -37,12 +38,25 @@ class InfoView(LoginRequiredMixin,View):
     def get(self, request):
         #添加分类模块
         category = request.GET.get('category','all')
+        #搜索关键词
+        keyword = request.GET.get('keyword', '').strip()  
+        
+        # 构建基础查询  
+        files = FileModel.objects.all() 
+        
         #根据分类筛选
         if category and category != 'all':
             files = FileModel.objects.filter(file_dist=category).order_by('-id')
-        else:
-            files = FileModel.objects.all().order_by('-id')
-        
+        # 如果有搜索关键词  
+        if keyword:  
+            # 使用 Q 对象进行或条件查询  
+            files = files.filter(  
+                Q(name__icontains=keyword) |  # name 字段包含关键词  
+                Q(file_product__icontains=keyword)  # file_product 字段包含关键词  
+            )  
+         # 按 id 降序排序  
+        files = files.order_by('-id')  
+         
          #每页显示数量
         page_size = 6
         paginator = Paginator(files, page_size)
@@ -63,17 +77,14 @@ class InfoView(LoginRequiredMixin,View):
             'username': request.user.username,
             'MEDIA_URL': settings.MEDIA_URL,
             'current_category': category,
+            'keyword': keyword,
         }
 
         return render(request, "product.html", context)
 
 
-    #文件下载，添加下载视图
-
-
-class FileDownloadView(View):
-
-    MIME_TYPES = {
+#MIME类型字典
+MIME_TYPES = {
         '.pdf': 'application/pdf',
         '.doc': 'application/msword',
         '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -81,8 +92,14 @@ class FileDownloadView(View):
         '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         '.ppt': 'application/vnd.ms-powerpoint',
         '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-    }
+}
 
+
+#产品线文件下载    
+class FileDownloadView(View):
+    
+
+    
     def get(self, request, file_id):
         file_obj = get_object_or_404(FileModel, id=file_id)
         file_path = file_obj.file.path
@@ -92,7 +109,7 @@ class FileDownloadView(View):
             ext = os.path.splitext(filename)[1].lower()
 
             # 获取 MIME 类型
-            content_type = self.MIME_TYPES.get(ext) or mimetypes.guess_type(file_path)[0]
+            content_type = MIME_TYPES.get(ext) or mimetypes.guess_type(file_path)[0]
 
             response = FileResponse(open(file_path, 'rb'))
             response['Content-Type'] = content_type
@@ -103,4 +120,29 @@ class FileDownloadView(View):
         except FileNotFoundError:
             raise Http404("文件未找到")
 
+
+
+#首页轮播图文件下载    
+class BannerDownloadView(View):
+    
+   
+    def get(self, request, file_id):
+        file_obj = get_object_or_404(BannerModel, id=file_id)
+        file_path = file_obj.file_banner.path
+
+        try:
+            filename = os.path.basename(file_path)
+            ext = os.path.splitext(filename)[1].lower()
+
+            # 获取 MIME 类型
+            content_type = MIME_TYPES.get(ext) or mimetypes.guess_type(file_path)[0]
+
+            response = FileResponse(open(file_path, 'rb'))
+            response['Content-Type'] = content_type
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+            return response
+
+        except FileNotFoundError:
+            raise Http404("文件未找到")
 

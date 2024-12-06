@@ -53,7 +53,7 @@ class IndexView(View):
     def get(self, request):
 
         #轮播图资源
-        all_banners = BannerModel.objects.all().order_by('index')
+        all_banners = BannerModel.objects.all().order_by('-add_time')
         numbers = range(1,9)
         context = {
             'all_banners': all_banners,
