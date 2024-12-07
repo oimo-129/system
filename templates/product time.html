@@ -118,8 +118,87 @@
     .search_title_23 a.btn {  
         background-color: #248dfb;;  
         color: white;  
+
+
+
+
+
+
+
+        .search-form {  
+            display: flex;  
+            align-items: center;  
+        }  
+        
+        .search-result-info {  
+            margin: 10px 0;  
+            padding: 10px;  
+            background-color: #f5f5f5;  
+            border-radius: 4px;  
+        }  
+        
+        /* 如果没有搜索结果 */  
+        .no-results {  
+            text-align: center;  
+            padding: 20px;  
+            background-color: #f5f5f5;  
+            margin: 20px 0;  
+            border-radius: 4px;  
+        }  
     }  
 
+
+
+
+
+
+    .date-form {  
+        position: relative;  
+        display: inline-block;  
+    }  
+    
+    .date-label {  
+        cursor: pointer;  
+        display: inline-block;  
+    }  
+    
+    .name {  
+        display: inline-block;  
+        padding: 5px 10px;  
+        color: #333;  
+        position: relative;  
+    }  
+    
+    .name::after {  
+        content: ' 📅';  
+        font-size: 14px;  
+        margin-left: 5px;  
+    }  
+    
+    /* 日期输入框样式 */  
+    .date-input {  
+        position: absolute;  
+        top: 0;  
+        left: 0;  
+        opacity: 0;  
+        width: 100%;  
+        height: 100%;  
+        cursor: pointer;  
+    }  
+    
+    /* 悬停效果 */  
+    .date-label:hover .name {  
+        color: #007bff;  
+    }  
+    
+    /* 日期筛选信息样式 */  
+    .date-filter-info {  
+        margin: 10px 0;  
+        padding: 5px 10px;  
+        background-color: #f5f5f5;  
+        border-radius: 4px;  
+        font-size: 14px;  
+    }
 </style>
 
 
@@ -183,14 +262,28 @@
                 <img class="logo" src="{% static 'it/img/logo_jd.png' %}" alt="">
             </a>
             <div class="search">
-                <input type="text" id="HeaderInputSearch" onkeydown="SearchKeyDown(event, 'HeaderInputSearch')" placeholder="请输入文件关键词">
-                <a class="search_btn" href="javascript:void(0);" onclick="SearchCommon('HeaderInputSearch')">立即搜索</a>
+                <!--添加GET表单-->
+                <form id="searchForm" method="get" action="{% url 'info:infolist' %}" class="search-form">
+                    <!--如何有 category参数，保留它-->
+                    {% if current_category != 'all' %}
+                    <input type="hidden" name="category" value="{{ current_category }}">  
+                    {% endif %}
+                
+                    <input type="text" name="keyword" placeholder="请输入文件关键词" value="{{ keyword|default:'' }}" style="color: #333;">
+                    <button type="submit" class="search_btn">立即搜索</button>  
+                </form>
             </div>
         </div>
     </div>
 
 
-
+<!-- 添加搜索结果提示（可选） -->  
+<!--{% if keyword %}  
+<div class="search-result-info">  
+    搜索关键词: "{{ keyword }}" - 找到 {{ total_files }} 个结果  
+</div>  
+{% endif %}  
+-->
 
 
 
@@ -201,15 +294,6 @@
             
         </ul>
     </div>
-<div>
-    <input type="hidden" id="ChannelColumnIdHidden" />
-    <input type="hidden" id="ListTypeHidden" value="" />
-    <input type="hidden" id="ListValueHidden" />
-
-    <input type="hidden" id="NewsLastDateHidden" />
-
-</div>
-
 
 
 
@@ -236,39 +320,76 @@
         <!-- title end -->
         <!-- search start -->
         <div class="chart-vd f-cb">
-            <ul>
-                <li>
-                    <p class="name">产品类型：<span id="nFirst">不限</span><i>&Lambda;</i></p>
-                    <div id="divFirst" class="chart-drop f-cb">
-                                <a href="#" class="current">不限</a>
-                                    <a href="#" class="">电风扇</a>
-                                    <a href="#" class="">电暖气</a>
-                                    <a href="#" class="">净水机</a>
 
+            <!--时间搜索模块没有调出来，后天再添加-->
+            <!--
+            <ul>  
+            
+                <li>  
+                    <div id="divItem" class="date-form">  
+                        <label for="datePicker" class="date-label">  
+                            <span class="name">报告时间</span>  
+                        </label>  
+                        <form method="get" action="{% url 'info:infolist' %}" class="date-search-form">  
+                            {% if keyword %}  
+                                <input type="hidden" name="keyword" value="{{ keyword }}">  
+                            {% endif %}  
+                            {% if current_category != 'all' %}  
+                                <input type="hidden" name="category" value="{{ current_category }}">  
+                            {% endif %}  
+                            
+                            <input type="date"  
+                                   id="datePicker"  
+                                   name="selected_date"  
+                                   value="{{ selected_date|default:'' }}"  
+                                   onchange="this.form.submit()"  
+                                   class="date-input">  
+                        </form>  
                     </div>
-                </li>
+                </li>  
+            </ul>  
+        -->
+<!-- 添加日期筛选提示（可选） -->  
+{% if selected_date %}  
+<div class="date-filter-info">  
+    显示 {{ selected_date }} 上传的文件  
+</div>  
+{% endif %}  
 
-                <li>
-                    <div id="divItem">
-                        <p class="name">报告时间：<span id="nItem">不限</span><i>&Lambda;</i></p>
-                        <div class="chart-drop f-cb">
-                            <div id="divItems" class="f-cb">
 
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+
+
+
+
+
             <div class="search-head">
-                <input type="text" id="queryKey" class="keys" value="" placeholder="请输入关键词">
-                <p class="sub_23" onclick="QueryKeywordClick()">
-                    <img src="{% static 'it/images/chanye_search_23.png' %}" alt="">
-                    搜索
-                </p>
+
+                <form id="searchForm" method="get" action="{% url 'info:infolist' %}" class="search-form">
+                   <!--如何有 category参数，保留它-->
+                   {% if current_category != 'all' %}
+                   <input type="hidden" name="category" value="{{ current_category }}">  
+                   {% endif %}
+               
+                    <input type="text" id="queryKey"  name="keyword" class="keys" value="{{ keyword|default:'' }}" placeholder="请输入关键词" style="color: #333;">
+
+                    
+                    <button type="submit" class="search_btn" style="display: none;">搜索</button> <!-- 隐藏按钮，使用图片代替 --> 
+                    <p class="sub_23" style="cursor: pointer;" onclick="this.parentElement.submit();" >
+                        
+                       
+                        <img src="{% static 'it/images/chanye_search_23.png' %}" alt="">
+                        搜索
+                    </p>
+                </form>
+
             </div>
-        </div>
+        
+    </div>
         <!-- search end -->
         <!-- content list start -->
+
+
+
 
 
 
@@ -445,60 +566,6 @@
         });
     });
 
-
-
-
-
-
-    //这个应该是查询的功能模块
-        function QueryKeywordClick() {
-            var queryKeyword = $("#queryKey").val();
-            alert("查找的关键词: " + queryKeyword);  
-            if (queryKeyword == "") {
-                return;
-            }
-            var itemUrl = "/info/infolist/";
-            if (""!="") {
-                itemUrl = itemUrl + "" + "/";
-            }
-            itemUrl = itemUrl + "?tradeId=&keyword=" + queryKeyword;
-            window.open(itemUrl);
-        }
-
-        function GetListTrade(parentTradeId) {
-            if (parentTradeId == "") {
-                $("#divItems").html("");
-                return;
-            }
-            $("#divItems").html("");
-            $.ajax({
-                type: 'Get',
-                url: '/tool/GetListTrade?id=' + parentTradeId,
-                data: {},
-                dataType: 'json',
-                success: function (result) {
-                    var theHtml = "<a href='#' onclick='changeItem(this)' class='current' data=''>不限</a>";
-
-                    if (result && result.length > 0) {
-                        for (var i = 0; i < result.length; i++) {
-                            var item = result[i];
-                            var itemUrl = "";
-                            var itemUrl = "/news/viewindustry/";
-                            if ("" != "") {
-                                itemUrl = itemUrl + "" + "/";
-                            }
-                            itemUrl = itemUrl + "?keyword=&tradeId=" + item.TradeId;
-
-                            theHtml = theHtml + "<a href='" + itemUrl + "' onclick='changeItem(this)' class=''>" + item.TradeName +"</a>";
-                        }
-                    }
-                    $("#divItems").html(theHtml);
-                },
-                beforeSend: function () {
-                    return true;
-                }
-            });
-        }
     </script>
 
 
@@ -538,6 +605,62 @@
         });  
         </script>
 
+
+        <!-- 添加必要的 JavaScript -->  
+<script>  
+    document.addEventListener('DOMContentLoaded', function() {  
+        // 获取表单元素  
+        const searchForm = document.getElementById('searchForm');  
+        const searchInput = searchForm.querySelector('input[name="keyword"]');  
+    
+        // 添加表单提交事件处理  
+        searchForm.addEventListener('submit', function(e) {  
+            // 如果搜索框为空，阻止提交  
+            if (!searchInput.value.trim()) {  
+                e.preventDefault();  
+                alert('请输入搜索关键词');  
+                return false;  
+            }  
+        });  
+    
+        // 添加输入框回车键处理  
+        searchInput.addEventListener('keypress', function(e) {  
+            if (e.key === 'Enter') {  
+                searchForm.submit();  
+            }  
+        });  
+    });  
+    </script>  
+
+
+
+
+    <!-- 添加 JavaScript 以确保点击标签时触发日期选择器 -->  
+    <script>  
+        document.addEventListener('DOMContentLoaded', function() {  
+            const dateLabel = document.querySelector('.date-label');  
+            const datePicker = document.getElementById('datePicker');  
+            
+            if (dateLabel && datePicker) {  
+                dateLabel.addEventListener('click', function(e) {  
+                    e.preventDefault();  
+                    // 使用showPicker()方法（现代浏览器支持）  
+                    if (datePicker.showPicker) {  
+                        datePicker.showPicker();  
+                    } else {  
+                        // 降级方案：直接触发点击  
+                        datePicker.click();  
+                    }  
+                });  
+        
+                // 监听日期变化  
+                datePicker.addEventListener('change', function() {  
+                    this.form.submit();  
+                });  
+            }  
+        });
+    </script>  
+   
     <script src="{% static 'plugin/toastr/toastr.min.js' %}" type="text/javascript"></script>
 
     <script type="text/javascript" src="/static/it/js/product/basic.js"></script>

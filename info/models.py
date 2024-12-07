@@ -55,7 +55,7 @@ class FileModel(models.Model):
                                           ('用户调研', '用户调研'),
                                           ('院内报告', '院内报告'))
                                  )
-    file_product = models.CharField(verbose_name='文件产品类型', max_length=20, null=True, blank=True)
+    file_product = models.CharField(verbose_name='文件所属产品类型', max_length=20, null=True, blank=True)
     add_time = models.DateTimeField(default=timezone.now, verbose_name='报告时间')
     cover = models.ImageField(upload_to='covers/%Y/%m/%d', verbose_name='文件封面', default='default/default.png')
 

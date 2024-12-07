@@ -23,6 +23,9 @@ import mimetypes
 from django.db.models import Q
 
 from .models import FileModel,BannerModel
+#时间模块
+from datetime import datetime,timedelta
+
 
 '''
 产品线界面
@@ -39,7 +42,9 @@ class InfoView(LoginRequiredMixin,View):
         #添加分类模块
         category = request.GET.get('category','all')
         #搜索关键词
-        keyword = request.GET.get('keyword', '').strip()  
+        keyword = request.GET.get('keyword', '').strip()
+        #时间内搜索参数
+        selected_date = request.GET.get('selected_date')  
         
         # 构建基础查询  
         files = FileModel.objects.all() 
@@ -53,7 +58,21 @@ class InfoView(LoginRequiredMixin,View):
             files = files.filter(  
                 Q(name__icontains=keyword) |  # name 字段包含关键词  
                 Q(file_product__icontains=keyword)  # file_product 字段包含关键词  
-            )  
+            )
+        #如果有日期筛选
+        if selected_date: 
+             
+            try:  
+                # 将字符串转换为日期对象  
+                date_obj = datetime.strptime(selected_date, '%Y-%m-%d') 
+          
+                # 创建该日期的开始和结束时间  
+                start_date = date_obj  
+                end_date = date_obj + timedelta(days=1)  
+                # 筛选当天上传的文件  
+                files = files.filter(add_time__gte=start_date, add_time__lt=end_date)  
+            except ValueError:  
+                pass  # 如果日期格式无效，忽略日期筛选        
          # 按 id 降序排序  
         files = files.order_by('-id')  
          
@@ -78,6 +97,7 @@ class InfoView(LoginRequiredMixin,View):
             'MEDIA_URL': settings.MEDIA_URL,
             'current_category': category,
             'keyword': keyword,
+            'selected_date': selected_date, 
         }
 
         return render(request, "product.html", context)

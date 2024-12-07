@@ -4,6 +4,9 @@
 
 
 
+{% block custom %}
+
+{% endblock %}
 
 {% block content %}
     <!-- 搜索栏 -->
@@ -62,10 +65,19 @@
 
 
                     </div>
-                    <div> </div>
-                    <input id="search" class="form-control" placeholder="请输入要查找的内容">
-                    <a href="#"> <i class="ti-search search-icon" style="margin-top: 80px;"></i></a>
-
+                  
+                    <form id="searchForm" action="{% url 'info:infolist' %}" method="get" class="search-form">  
+                        <div class="search-container">  
+                            <input id="search"   
+                                   name="keyword"   
+                                   class="form-control"   
+                                   placeholder="请输入要查找的内容"  
+                                   required>  
+                            <button type="submit" class="search-button">  
+                                <i class="ti-search search-icon" style="margin-top: 80px;"></i>  
+                            </button>  
+                        </div>  
+                    </form>  
                 </div>
             </div>
 
@@ -276,7 +288,7 @@ startSlide();
 
         <div class="service service2023" id="report_1">
             <div class="content_title">
-                <span>活动宣发</span>
+                <span>政策宣发</span>
                 <div class="line1 width-bod96"></div>
                 <div class="more">
                     <a href="#" target="_blank">
