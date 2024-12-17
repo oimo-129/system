@@ -38,7 +38,7 @@ from itproject.settings import MEDIA_ROOT
 urlpatterns = [
 
 #首页
-    path('', user_views.IndexView.as_view(), name='home'),
+    path('', user_views.IndexView1.as_view(), name='home'),
 #后台管理页面
     path('admin/', admin.site.urls),
 #登录

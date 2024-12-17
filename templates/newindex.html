@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+
+<head>
+
+    <meta charset=utf-8 />
+    <title>家电一院情报系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="家电一院情报系统">
+    <meta name="description" content="家电一院情报系统">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon" />
+    <script src="{% static 'pc/js/jquery.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'pc/js/bootstrap/bootstrap.css' %}">
+    <!--主页的主题样式-->
+    <link rel="stylesheet" href="{% static 'pc/css/gree.init.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'pc/css/gree.layout.css' %}">
+    <script src="{% static 'pc/js/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'pc/js/gree.init.js' %}"></script>
+    <script src="{% static 'pc/js/gree.common.js' %}"></script>
+    <!--[if lt IE 8]><script type="text/javascript" src="js/update.brower.js"></script><![endif]-->
+    <!-- 您当前的浏览器版本过低，建议您升级到最新版本的 Internet Explorer 或者选择另一个web浏览以获得最佳的体验效果，推荐使用以下浏览器 -->
+
+
+    <!--添加自定义的CSS样式-->
+    <link rel="stylesheet" href="{% static 'gree/index.css' %}">
+
+
+    <!--原版本的配置文件-->
+    
+
+
+  
+
+</head>
+
+<body>
+    <!-- 头部导航栏 -->
+    <div id="gree-header" class="navbar navbar-static-top ">
+        <div class="container">
+
+            <div class="navbar-header fixed-top">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="logo" href="/">
+                    <h1 title="格力" id="hd-logo" class="logo-def"><span>格力</span></h1>
+                </a>
+            </div>
+
+
+            <div class="navbar-collapse collapse navbar-collapse-gree">
+                
+                <ul class="nav navbar-nav" >
+
+                        <li class="nav-item-line">|</li>
+
+                        <li class="green-dropdown nav-item " id="nav-products-family">
+                            <a href="javascript:;" class="green-dropdown-toggle navbar-item">家电一院产品线<span class="nav-item-collapse"></span></a>
+                            <!-- 下拉区域 -->
+                            <div class="dropdown-menu green-dropdown-menu green-dropdown-menu-lock">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="dropdown-show">
+                                                <a href="#" class="goShow">
+                                                <img src="{% static 'img_add/fans.jpg'%}" class="goShow-img" alt="">
+                                                <span>更多产品报告</span>
+                                            </a>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-7">
+                                            <div class="dropdown-category">
+                                                <ul class="dropdown-category-list row">
+                                                    <li class="col-lg-6">
+                                                        <a href="/cmsProduct/list/41" target="_self">
+                                                        <img src="/static/pc/img/icon/icon_Air-Conditioner-02@2x.png" class="category-ico"
+                                                            alt="">
+                                                        <p class="category-name">用户调研</p>
+                                                    </a>
+                                                    </li>
+                                                 
+                                                    <li class="col-lg-6">
+                                                        <a href="/cmsProduct/list/44" target="_self">
+                                                        <img src="/static/pc/img/icon/icon_home-devices-02@2x.png" class="category-ico"
+                                                            alt="">
+                                                        <p class="category-name">院内产品</p>
+                                                    </a>
+                                                    </li>
+                                                   
+                                                   
+
+                                                    <li class="col-lg-6">
+                                                        <a href="/cmsProduct/list/46" target="_self">
+                                                        <img src="/static/pc/img/icon/icon_Smart-product-02@2x.png" class="category-ico"
+                                                            alt="">
+                                                        <p class="category-name">智能产品</p>
+                                                    </a>
+                                                    </li>
+                                                    <li class="col-lg-6">
+                                                        <a href="/ltjkj" target="_self">
+                                                        <img src="/static/pc/img/icon/icon_Zero-carbon-02@2x.png" class="category-ico"
+                                                            alt="">
+                                                        <p class="category-name">其他报告</p>
+                                                    </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-2">
+                                            <div class="dropdown-server">
+                                                <dl class="dropdown-server-view">
+                                                    <dt>院内情报需求支持？</dt>
+                                                    <dd><a href="/server/saleStore">提交情报需求</a></dd>
+                                                    <dd><a href="http://pgxt.gree.com:7909/hjzx/zzbx/bx.jsp" target="_blank">联系管理员</a></dd>
+                                                    <dd>管理员：<b>添加内网电话</b></dd>
+                                                </dl>
+                                                <p class="dropdown-jumpGo">访问 <a href="/server/serverCenter" class="jump-serverCenyer">院内报告</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                       
+
+                        <li class="nav-item-line">|</li>
+
+                        <li id="about-nav">
+                            <a href="javascript:;" class="navbar-item" id="showAboutGree">新品月报</a>
+
+
+                            <div id="about-nav-dropBox" class="green-dropdown-menu-lock">
+
+                                <div class="container">
+                                    <div class="header-about-nav">
+                                        <ul class="about-nav">
+                                            <li class="about-nav-list"><span class="about-nav-item">关于格力</span></li>
+                                            <li class="line"></li>
+
+                                            <li id="about-nav-sub2" class="about-nav-list ">
+                                                <a href="/about/about" class="about-nav-item">重点产品</a>
+                                                <div id="about-nav-drop2">
+                                                    <ul class="about-nav-dropList">
+                                                        <li><a href="/single/32">扫地机算法</a></li>                                                   
+                                                        <li><a href="/about/history">净水机</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+
+                                            <li id="about-nav-sub" class="about-nav-list ">
+                                                <a href="/about/idea" class="about-nav-item">院内政策</a>
+                                                <div id="about-nav-drop">
+                                                    <ul class="about-nav-dropList">
+
+                                                        <li><a href="/about/idea">公司理念</a></li>
+                                                        <li><a href="/about/business">经营思想</a></li>
+                                                        <li><a href="/about/staff">员工风采</a></li>
+                                                        <li><a href="/about/work">党建工作</a></li>
+
+                                                     
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+
+                                            <li class="about-nav-list"><a href="/about/news" class="about-nav-item">院内新闻</a></li>
+                                            <li class="about-nav-list"><a href="/about/video" class="about-nav-item">添加分类1</a></li>
+                                            <li class="about-nav-list"><a href="/server/serverCenter" class="about-nav-item">添加分类2</a></li>
+                                            <li class="about-nav-list"><a href="/about/investor" class="about-nav-item">添加分类3</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item-line">|</li>
+
+
+                        <!-- <li><a href="/nyxst" class="navbar-item">情报需求</a></li> -->
+
+                        
+                        
+                        <li><a href="#" class="navbar-item navbar-item-jump" target="_blank">个人中心<span
+                                class="icon-jump"></span></a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav" id="navbar-nav-search">
+                        <li class="dropdown">
+                            <a href="javascript:;" id="navbar-search" data-toggle="dropdown" class="navbar-search">查询</a>
+                            <!-- 查询区域 -->
+                            <div class="dropdown-menu" id="navbar-nav-search-result">
+
+                                <div class="dialog-search-box">
+                                    <div class="container">
+                                        <div class="col-lg-8 col-lg-offset-2 ">
+                                            <div class="navbar-search-title">
+                                                想要搜索院内什么方面的情报？
+                                                <a href="javascript:;" id="navbar-search-close" class="navbar-search-close">关闭</a>
+                                            </div>
+                                            <div class="navbar-search-box">
+                                                <div class="navbar-search-form">
+                                                    <form action="/searchForm" method="post" onSubmit="getSearchHistroy();">
+                                                        <div class="navbar-search-key">
+                                                            <span class="icon-navbar-search"></span>
+                                                            <input type="text" name="keyword" id="navbar-search-key" placeholder="输入搜索的关键字" class="navbar-search-txt" data-toggle="collapse" data-target="#navbar-search-suggest" /><button type="submit"
+                                                                class="navbar-search-button">查询</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="navbar-search-suggest collapse" id="navbar-search-suggest">
+                                                    <div class="navbar-search-suggest-box row">
+                                                        <div class="navbar-search-jumpshop col-lg-5">
+                                                            <a href="https://mall.gree.com/" class="jumpShop-lager" target="_blank">
+                                                                    <img src="{% static 'img_add/fans.jpg' %}" class="jumpImg" alt="">
+                                                                </a>
+                                                        </div>
+                                                        <div class="navbar-search-hotCategory col-lg-7">
+                                                            <h5 class="search-hotCategory-tit">快速查询</h5>
+                                                            <div class="search-result-list">
+                                                                <ol class="result-list clearfix row" style="height:100px;overflow:hidden">
+                                                                    <li class="col-lg-3"><a href="/single/62d78a399b7044fbbd67251d079b178e">电风扇</a></li>
+                                                                    <li class="col-lg-3"><a href="/single/2637">净水机</a></li>
+                                                                    <li class="col-lg-3"><a href="/single/541">产品...</a></li>
+                                                                    <li class="col-lg-3"><a href="/single/541">产品...</a></li>
+                                                                    <li class="col-lg-3"><a href="/single/541">产品...</a></li>
+                                                                   
+
+                                                                </ol>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="navbar-search-suggest-box row">
+                                                        <div class="navbar-search-jumpbuy col-lg-5">
+                                                            <a href="/server/saleStore" class="jumpShop-lager" target="_blank">
+                                                                <img src="{% static 'img_add/fans.jpg' %}" class="jumpImg" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="navbar-search-histroy col-lg-7">
+                                                            <h5 class="search-hotCategory-tit">搜索历史</h5>
+                                                            <div class="search-result-list">
+                                                                <ol class="result-list clearfix row" id="search-result-histroy">
+                                                                    <!--读cookie信息-->
+                                                                </ol>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                  
+                </ul>
+
+               
+        </div>
+    </div>
+
+    
+  
+
+
+
+
+
+
+        <script src="{% static 'pc/js/gree.layout.js' %}"></script>
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+
+                //  hm.src = "https://hm.baidu.com/hm.js?81bdbcefa8dfad7e982d074c31287096";
+                hm.src = "https://hm.baidu.com/hm.js";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+
+
+        <script src="{% static 'pc/js/gree.index.js' %}"></script>
+</body>
+
+</html>

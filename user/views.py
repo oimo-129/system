@@ -56,6 +56,13 @@ class CustomBackend(ModelBackend):
 '''
 系统首页设置
 '''
+
+class IndexView1(View):
+    
+    def get(self,request):
+        
+        return  render(request, "newindex.html", {})
+    
 class IndexView(View):
     def get(self, request):
         
