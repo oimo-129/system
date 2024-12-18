@@ -6,5 +6,141 @@ body {
 
 #gree-header {
     height: 70px;
-    background-color: lightblue;
+    background-color: hsl(221, 89%,41%);
+    position: relative;  /* 改为相对定位 */
+    width: 100%;
+    z-index: 100;  /* 确保导航栏在上层 */
 }
+.navbar-static-top {
+    position: relative !important;  /* 覆盖 Bootstrap 的默认样式 */
+}
+.search-cover {
+    height: 300px;
+    width: 100%;
+    background-image: url('/static/img_add/bannerblue.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 0;  /* 确保没有额外的上边距 */
+}
+
+.h2 {
+    margin: 25px;
+    text-align: left;
+    margin-left: 600px;
+    color: white;
+}
+#fire_img {
+    vertical-align: middle;
+}
+
+#fire_img + span {
+    vertical-align: middle;
+}
+.search_span {
+    color:white;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.input-group {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.input-group .form-control {
+    border-radius: 4px 0 0 4px;
+    height: 46px;
+}
+
+.input-group .btn {
+    border-radius: 0 4px 4px 0;
+    height: 46px;
+    padding: 0 20px;
+}
+
+.input-group .btn:hover {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.nav2{height:60px;width: 100%;border-bottom: 1px solid #eee;text-align: center;background-color: hsl(221, 89%,41%); }
+.nav2 ul{width: 1200px;margin: 0 auto;position: relative;z-index: 1000; }
+.nav2 ul li{width: 140px;text-align: center;height: 60px;line-height: 60px;float: left;}
+.nav2 ul li a{color: #fff;font-size:18px;display:block;height: 60px;width: 140px; }
+.nav2 ul li a:hover {background-color: #0e5ba3; }
+.nav2 ul li .act2{background-color: #0e5ba3;}
+.nav2 ul li a img{margin-left: 4px; position: relative;top: -2px;display: none;}
+
+
+/* 轮播图样式 */
+.prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    left:10px;
+    }
+    .prev:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+        color: #fff;
+
+    }
+
+    .next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    right:10px;
+    }
+    .next:hover{
+    background-color: rgba(0, 0, 0, 0.8);
+    }
+
+
+    .slides {  
+        display: flex; /* 使用 flexbox 布局 */  
+        overflow: hidden; /* 隐藏超出部分 */  
+    }  
+
+    .slides li {  
+        list-style: none; /* 去掉默认的列表样式 */  
+        flex: 0 0 100%; /* 每个 li 占据 100% 的宽度 */  
+        position: relative; /* 为了定位标题 */  
+    }  
+
+    .slides img {  
+        width: 100%; /* 图片宽度占满容器 */  
+        display: block; /* 去掉图片底部的空白间隙 */  
+    }  
+
+    .img_title {  
+        position: absolute; /* 绝对定位标题 */  
+        width:30%;
+        
+        background: rgba(0, 0, 0, 0.5); /* 半透明背景 */  
+        color: #fff; /* 白色文字 */  
+        padding: 5px 10px; /* 内边距 */  
+        
+        font-size: 16px; /* 字体大小 */  
+        z-index: 1;
+    }
+    /* 使用更具体的选择器来提高优先级 */  
+    /* 针对 img_title 的 hover */  
+    a .img_title:hover,  
+    .img_title:hover {  
+    color: #2970b9; /* 鼠标悬浮时字体变红 */  
+    }  
+
+
+    .content1{width: 1200px;margin: 20px auto;padding-bottom: 10px;}

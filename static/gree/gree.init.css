@@ -727,7 +727,8 @@ body {
 }
 
 main {
-    display: block
+    display: block;
+    width:100%;
 }
 
 h1 {
